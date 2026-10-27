@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h1>Highlight the most quotable sentences in seconds.</h1>
+  <p>Paste text or upload a PDF. Paper Trail ranks crisp, memorable sentences as a clean reading aid.</p>
+</section>
+
+<div class="grid">
+  <section class="card">
+    <h2>Paste text</h2>
+    <form method="post" action="/ui/analyze-text">
+      <label>Title
+        <input name="title" value="Pasted text" maxlength="200">
+      </label>
+      <label>Text
+        <textarea name="text" rows="14" required placeholder="Paste an article, essay excerpt, speech, or research note..."></textarea>
+      </label>
+      <button type="submit">Analyze text</button>
+    </form>
+  </section>
+
+  <section class="card">
+    <h2>Upload PDF</h2>
+    <form method="post" action="/ui/analyze-pdf" enctype="multipart/form-data">
+      <label>Title
+        <input name="title" value="Uploaded PDF" maxlength="200">
+      </label>
+      <label>PDF file
+        <input type="file" name="file" accept="application/pdf,.pdf" required>
+      </label>
+      <button type="submit">Analyze PDF</button>
+    </form>
+
+    <h2>Recent analyses</h2>
+    {% if documents %}
+      <ul class="recent-list">
+        {% for doc in documents %}
+          <li><a href="/documents/{{ doc.id }}">{{ doc.title }}</a> <span>{{ doc.source_type }}</span></li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="muted">No documents yet.</p>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}

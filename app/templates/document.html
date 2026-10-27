@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card result-card">
+  <a href="/" class="back-link">← Analyze another document</a>
+  <h1>{{ document.title }}</h1>
+  <p class="muted">Source: {{ document.source_type }} · Created: {{ document.created_at.strftime('%Y-%m-%d %H:%M') }} UTC</p>
+
+  <ol class="sentence-list">
+    {% for sentence in sentences %}
+      <li>
+        <div class="score" title="Confidence score">{{ '%.0f'|format(sentence.score * 100) }}%</div>
+        <blockquote>{{ sentence.text }}</blockquote>
+        <div class="meta">Original sentence position: {{ sentence.position + 1 }}</div>
+      </li>
+    {% endfor %}
+  </ol>
+</section>
+{% endblock %}
